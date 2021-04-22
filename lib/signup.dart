@@ -63,10 +63,8 @@ class SignupState extends State<Signup> {
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("images/bg.jpg"),
-              fit: BoxFit.cover,
-            ),
+            gradient: LinearGradient(
+                colors: [Colors.deepPurple, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Center(
             child: Padding(
@@ -93,7 +91,7 @@ class SignupState extends State<Signup> {
                         Colors.deepPurple,
                         Colors.blue,
                         Colors.black,
-                        Colors.red,
+                        Colors.white,
                       ],
                       textAlign: TextAlign.start,
                       alignment: AlignmentDirectional.topStart // or Alignment.topLeft

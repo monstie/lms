@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ms/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:library_ms/booklist.dart';
 
 
 //class dashboard extends StatefulWidget {
@@ -23,36 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 //        backgroundColor: Colors.deepPurple,
 //      ) ,
 //      drawer: new Drawer(
-//        child: new ListView(
-//          children: <Widget>[
-//            new UserAccountsDrawerHeader(
-//              accountName: Text('Soumya Prakash Mishra'),
-//              accountEmail: Text('soumyamax619@gmail.com'),
-//              decoration: BoxDecoration(
-//                color: Colors.deepPurple
-//              ),
-//
-//
-//            ),
-//            new ListTile(
-//              title: Text('Booklist'),
-//              onTap: (){
-//
-////                PopupMenuButton(
-////                  child: Center(child: Text('click here')),
-////                  itemBuilder: (context) {
-////                    return List.generate(5, (index) {
-////                      return PopupMenuItem(
-////                        child: Text('button no $index'),
-////                      );
-////                    });
-////                  },
-////                );
-//              },
-//
-//            )
-//          ],
-//        ),
+
 //      ),
 //      resizeToAvoidBottomPadding: false,
 //      //backgroundColor: Theme.of(context).primaryColor.,
@@ -94,6 +66,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Code Land", style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.deepPurple,
+
         actions: <Widget>[
           FlatButton(
             onPressed: () {
@@ -106,7 +80,36 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       body: Center(child: Text("Main Page")),
-      drawer: Drawer(),
+      drawer: Drawer(child: new ListView(
+        children: <Widget>[
+          new UserAccountsDrawerHeader(
+            accountName: Text('Soumya Prakash Mishra'),
+            accountEmail: Text('soumyamax619@gmail.com'),
+            decoration: BoxDecoration(
+                color: Colors.deepPurple
+            ),
+
+
+          ),
+          new ListTile(
+            title: Text('Booklist'),
+            onTap: (){
+              Navigator.pushNamed(context, booklist.id);
+//                PopupMenuButton(
+//                  child: Center(child: Text('click here')),
+//                  itemBuilder: (context) {
+//                    return List.generate(5, (index) {
+//                      return PopupMenuItem(
+//                        child: Text('button no $index'),
+//                      );
+//                    });
+//                  },
+//                );
+            },
+
+          )
+        ],
+      ),),
     );
   }
 }

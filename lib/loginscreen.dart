@@ -224,16 +224,7 @@
 //                    ),
 //                  ),
 //                ),
-//            SizedBox(
-//            height: 50,
-//          ),
-//                Text('If new, create an account here'),
-//                RaisedButton(onPressed: (){
-//                  Navigator.pushNamed(context, Signup.id);
-//                },
-//                child:Text('Sign up',style: GoogleFonts.spectralSC(fontSize: 30,color: Colors.white),),
-//                  color: Colors.deepPurple,
-//                )
+
 //              ],
 //            ),
 //          ),
@@ -352,8 +343,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ms/dashboard.dart';
+import 'package:library_ms/signup.dart';
 
 //import 'package:library_ms/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -379,7 +372,7 @@ class _loginscreenState extends State<loginscreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.white, Colors.purple], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              colors: [Colors.deepPurple, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -438,23 +431,40 @@ class _loginscreenState extends State<loginscreen> {
   Container buttonSection() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 40.0,
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       margin: EdgeInsets.only(top: 15.0),
-      child: RaisedButton(
-        onPressed: rollController.text == "" || passwordController.text == ""
-            ? null
-            : () {
-                setState(() {
-                  _isLoading = true;
-                });
-                signIn(rollController.text, passwordController.text);
-              },
-        elevation: 0.0,
-        color: Colors.purple,
-        child: Text("Sign In", style: TextStyle(color: Colors.white70)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      child: Column(
+        children: [
+          RaisedButton(
+            onPressed: rollController.text == "" || passwordController.text == ""
+                ? null
+                : () {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    signIn(rollController.text, passwordController.text);
+                  },
+            elevation: 0.0,
+            color: Colors.deepPurple,
+            child: Text("Log In", style: TextStyle(color: Colors.white70)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Text('If new, create an account here'),
+          RaisedButton(onPressed: (){
+            Navigator.pushNamed(context, Signup.id);
+          },
+            child:Text('Sign up',style: GoogleFonts.spectralSC(fontSize: 30,color: Colors.white),),
+            color: Colors.deepPurple,
+          )
+
+
+        ],
       ),
+
     );
   }
 
@@ -490,6 +500,7 @@ class _loginscreenState extends State<loginscreen> {
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
+
         ],
       ),
     );
@@ -504,3 +515,4 @@ class _loginscreenState extends State<loginscreen> {
     );
   }
 }
+

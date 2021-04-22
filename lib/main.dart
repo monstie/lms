@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_ms/booklist.dart';
 import 'package:library_ms/loginscreen.dart';
 import 'package:library_ms/signup.dart';
 import 'package:library_ms/dashboard.dart';
@@ -16,6 +17,7 @@ class libraryms extends StatelessWidget {
         loginscreen.id: (contest) => loginscreen(),
         Signup.id: (contest) => Signup(),
         MainPage.id: (contest) => MainPage(),
+        booklist.id: (contest) => booklist(),
         //ChatScreen.id: (contest) => ChatScreen(),
       } ,
     );
