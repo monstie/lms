@@ -82,6 +82,8 @@ class _MainPageState extends State<MainPage> {
 
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    print("token: ${sharedPreferences.getString("token")}");
+    print("sessionid: ${sharedPreferences.getString("sessionid")}");
     if(sharedPreferences.getString("token") == null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => loginscreen()), (Route<dynamic> route) => false);
     }
