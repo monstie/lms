@@ -17,8 +17,30 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   SharedPreferences sharedPreferences;
 
+  final String url = 'https://lmssuiit.pythonanywhere.com/api/booklist/<str:rollno>';
+  List data;
+  List ret;
+
   @override
   void initState() {
+    super.initState();
+    this.getJsonData();
+  }
+
+  Future<String> getJsonData() async {
+    var response = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    print(response.body);
+    setState(() {
+      var convertDataToJson = jsonDecode(response.body);
+      data = convertDataToJson['issued'];
+      ret= convertDataToJson['returned'];
+      print(data);
+    });
+    return "success";
+  }
+
+  @override
+  void initState1() {
     super.initState();
     checkLoginStatus();
   }
@@ -54,7 +76,71 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-      body: Center(child: Text("Main Page")),
+      body: Column(
+        children: [
+          Container(
+            child: ListView.builder(
+                itemCount: data == null ? 0 : data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Card(
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("${data[index][0]}"),
+                                  Text("${data[index][1]}"),
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(20.0),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+
+
+          ),
+          Container(
+            child: ListView.builder(
+                itemCount: ret == null ? 0 : ret.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Card(
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("${ret[index][0]}"),
+                                  Text("${ret[index][1]}"),
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(20.0),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+
+
+          ),
+
+        ],
+      ),
+
+
       drawer: Drawer(
         child: new ListView(
           children: <Widget>[
@@ -88,6 +174,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
+
     );
   }
 }
