@@ -60,6 +60,8 @@ class _loginscreenState extends State<loginscreen> {
     print("Status: ${response.statusCode}");
     print("Header: ${response.headers}");
     if (response.statusCode == 200) {
+      await sharedPreferences.setString("rollno", rollno);
+      await sharedPreferences.setString("password", password);
       jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
         // setState(() {
