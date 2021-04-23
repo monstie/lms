@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-//import 'package:library_ms/loginscreen.dart';
+import 'package:library_ms/loginscreen.dart';
 import 'package:http/http.dart' as http;
 
 String rollno, first_name, last_name, password, email;
@@ -88,7 +88,7 @@ class SignupState extends State<Signup> {
                       text: ["WELCOME TO", "YOUR", "LIBRARY"],
                       textStyle: TextStyle(fontSize: 50.0, fontFamily: "Alfa"),
                       colors: [
-                        Colors.deepPurple,
+                        Colors.white,
                         Colors.blue,
                         Colors.black,
                         Colors.white,
@@ -97,7 +97,7 @@ class SignupState extends State<Signup> {
                       alignment: AlignmentDirectional.topStart // or Alignment.topLeft
                       ),
                   SizedBox(
-                    height: 30.0,
+                    height: 50.0,
                   ),
 
                   Padding(
@@ -109,7 +109,7 @@ class SignupState extends State<Signup> {
                         padding: EdgeInsets.all(25.0),
                         child: Column(
                           children: <Widget>[
-                            Text('SIGN UP', style: GoogleFonts.spectralSC(fontSize: 30, color: Colors.white)),
+                            Text('SIGN UP', style: GoogleFonts.dancingScript(fontSize: 30, color: Colors.white)),
 //                        Container(
 //                          decoration: BoxDecoration(
 //                            color: Colors.deepPurple,
@@ -173,9 +173,11 @@ class SignupState extends State<Signup> {
                               onPressed: () {
                                 // Add your onPressed code here!
                                 postdata(rollno, first_name, last_name, email, password);
+                                Navigator.pushNamed(context, loginscreen.id);
+
                               },
-                              child: Icon(Icons.login),
-                              backgroundColor: Colors.deepPurple,
+                              child: Icon(Icons.login,color: Colors.black,),
+                              backgroundColor: Colors.white,
                             ),
                           ],
                         ),
@@ -204,7 +206,7 @@ class SignupState extends State<Signup> {
 
 const kTextFieldDecoration = InputDecoration(
   hintText: 'Enter Roll Number',
-  hintStyle: TextStyle(color: Colors.white),
+  hintStyle: TextStyle(color: Colors.black),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
@@ -217,6 +219,6 @@ const kTextFieldDecoration = InputDecoration(
     borderSide: BorderSide(color: Colors.deepPurple, width: 2.0),
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
-  fillColor: Colors.deepPurple,
+  fillColor: Colors.white,
   filled: true,
 );
