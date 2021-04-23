@@ -13,12 +13,10 @@ class libraryms extends StatelessWidget {
       home: loginscreen(),
       initialRoute:loginscreen.id,
       routes:{
-       // WelcomeScreen.id: (contest) => WelcomeScreen(),
         loginscreen.id: (contest) => loginscreen(),
         Signup.id: (contest) => Signup(),
         MainPage.id: (contest) => MainPage(),
         booklist.id: (contest) => booklist(),
-        //ChatScreen.id: (contest) => ChatScreen(),
       } ,
     );
   }

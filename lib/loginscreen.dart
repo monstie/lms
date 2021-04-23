@@ -481,7 +481,7 @@ class _loginscreenState extends State<loginscreen> {
             cursorColor: Colors.black,
             style: TextStyle(color: Colors.white70),
             decoration: InputDecoration(
-              icon: Icon(Icons.edit, color: Colors.white70),
+              icon: Icon(Icons.edit, color: Colors.white),
               hintText: "Roll No.",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
@@ -494,7 +494,7 @@ class _loginscreenState extends State<loginscreen> {
             obscureText: true,
             style: TextStyle(color: Colors.white70),
             decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: Icon(Icons.lock, color: Colors.white),
               hintText: "Password",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
@@ -510,8 +510,10 @@ class _loginscreenState extends State<loginscreen> {
     return Container(
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("LIBRARY",
-          style: TextStyle(color: Colors.white70, fontSize: 40.0, fontWeight: FontWeight.bold)),
+      child: Center(
+        child: Text("LIBRARY",
+            style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+      ),
     );
   }
 }

@@ -4,46 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ms/loginscreen.dart';
+//import 'package:library_ms/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:library_ms/booklist.dart';
 
-
-//class dashboard extends StatefulWidget {
-//  static const String id= 'dash_board';
-//
-//  @override
-//  dashboardState createState() => dashboardState();
-//}
-//
-//class dashboardState extends State<dashboard> {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text('Dashboard'),
-//        backgroundColor: Colors.deepPurple,
-//      ) ,
-//      drawer: new Drawer(
-
-//      ),
-//      resizeToAvoidBottomPadding: false,
-//      //backgroundColor: Theme.of(context).primaryColor.,
-//      //drawer: AppDrawer(),
-//
-//    );
-//  }
-//}
-
-
-
 class MainPage extends StatefulWidget {
-  static const String id= 'dash_board';
+  static const String id = 'dash_board';
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-
   SharedPreferences sharedPreferences;
 
   @override
@@ -56,8 +27,10 @@ class _MainPageState extends State<MainPage> {
     sharedPreferences = await SharedPreferences.getInstance();
     print("token: ${sharedPreferences.getString("token")}");
     print("sessionid: ${sharedPreferences.getString("sessionid")}");
-    if(sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => loginscreen()), (Route<dynamic> route) => false);
+    if (sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
+          (Route<dynamic> route) => false);
     }
   }
 
@@ -65,36 +38,35 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Code Land", style: TextStyle(color: Colors.white)),
+        title: Center(child: Text("DASHBOARD", style: TextStyle(color: Colors.white))),
         backgroundColor: Colors.deepPurple,
-
         actions: <Widget>[
           FlatButton(
             onPressed: () {
               sharedPreferences.clear();
-             // sharedPreferences.commit();
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => loginscreen()), (Route<dynamic> route) => false);
+              // sharedPreferences.commit();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => loginscreen()),
+                  (Route<dynamic> route) => false);
             },
             child: Text("Log Out", style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
       body: Center(child: Text("Main Page")),
-      drawer: Drawer(child: new ListView(
-        children: <Widget>[
-          new UserAccountsDrawerHeader(
-            accountName: Text('Soumya Prakash Mishra'),
-            accountEmail: Text('soumyamax619@gmail.com'),
-            decoration: BoxDecoration(
-                color: Colors.deepPurple
+      drawer: Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: Text('Soumya Prakash Mishra'),
+              accountEmail: Text('soumyamax619@gmail.com'),
+              decoration: BoxDecoration(color: Colors.deepPurple),
             ),
-
-
-          ),
-          new ListTile(
-            title: Text('Booklist'),
-            onTap: (){
-              Navigator.pushNamed(context, booklist.id);
+            new ListTile(
+              title: Text('Booklist',style: TextStyle(fontSize: 20.0),),
+              onTap: () {
+                Navigator.pushNamed(context, booklist.id);
 //                PopupMenuButton(
 //                  child: Center(child: Text('click here')),
 //                  itemBuilder: (context) {
@@ -105,11 +77,17 @@ class _MainPageState extends State<MainPage> {
 //                    });
 //                  },
 //                );
-            },
+              },
+            ),
+            new ListTile(
+        title: Text('Settings'),
+        onTap: (){
 
-          )
-        ],
-      ),),
+    },
+    )
+          ],
+        ),
+      ),
     );
   }
 }
