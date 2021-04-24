@@ -64,7 +64,7 @@ class SignupState extends State<Signup> {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [Colors.deepPurple, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                colors: [Colors.teal, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Center(
             child: Padding(
@@ -81,21 +81,36 @@ class SignupState extends State<Signup> {
 //                      setState(() => currentIndex = index),
 //                ),
 //              ),
-                  ColorizeAnimatedTextKit(
-                      onTap: () {
-                        print("Tap Event");
-                      },
-                      text: ["WELCOME TO", "YOUR", "LIBRARY"],
-                      textStyle: TextStyle(fontSize: 50.0, fontFamily: "Alfa"),
-                      colors: [
-                        Colors.white,
-                        Colors.blue,
-                        Colors.black,
-                        Colors.white,
-                      ],
-                      textAlign: TextAlign.start,
-                      alignment: AlignmentDirectional.topStart // or Alignment.topLeft
-                      ),
+
+              Container(
+//              margin: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(
+                child: Row(
+                  children: [
+                    Image(image: AssetImage('images/ic.png'),height: 90,width: 50,color: Colors.white70,),
+                    SizedBox(width: 10,),
+                    Text("LIBRARY",
+                        style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+                  ],
+                ),
+              ),
+            ),
+//                  ColorizeAnimatedTextKit(
+//                      onTap: () {
+//                        print("Tap Event");
+//                      },
+//                      text: ["WELCOME TO", "YOUR", "LIBRARY"],
+//                      textStyle: TextStyle(fontSize: 50.0, fontFamily: "Alfa"),
+//                      colors: [
+//                        Colors.white,
+//                        Colors.blue,
+//                        Colors.black,
+//                        Colors.white,
+//                      ],
+//                      textAlign: TextAlign.start,
+//                      alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+//                      ),
                   SizedBox(
                     height: 50.0,
                   ),
@@ -104,12 +119,12 @@ class SignupState extends State<Signup> {
                     padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                     child: Card(
                       elevation: 30,
-                      color: Colors.grey[800],
+                      color: Colors.transparent,
                       child: Container(
                         padding: EdgeInsets.all(25.0),
                         child: Column(
                           children: <Widget>[
-                            Text('SIGN UP', style: GoogleFonts.dancingScript(fontSize: 30, color: Colors.white)),
+                            Text('SIGN UP', style: GoogleFonts.dancingScript(fontSize: 30, color: Colors.white,fontWeight: FontWeight.bold)),
 //                        Container(
 //                          decoration: BoxDecoration(
 //                            color: Colors.deepPurple,
@@ -148,7 +163,7 @@ class SignupState extends State<Signup> {
                                 password = value;
                                 //Do something with the user input.
                               },
-                              decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+                              decoration: kTextFieldDecoration.copyWith(hintText: 'Set your password'),
                             ),
                             SizedBox(height: 10.0),
                             TextField(
@@ -174,6 +189,14 @@ class SignupState extends State<Signup> {
                                 // Add your onPressed code here!
                                 postdata(rollno, first_name, last_name, email, password);
                                 Navigator.pushNamed(context, loginscreen.id);
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: const Text('Successfully signed in. Log in for the info.'),
+                                  duration: const Duration(seconds: 2),
+//                                  action: SnackBarAction(
+//                                    label: 'ACTION',
+//                                    onPressed: () { },
+//                                  ),
+                                ));
 
                               },
                               child: Icon(Icons.login,color: Colors.black,),
@@ -212,11 +235,11 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.deepPurple, width: 1.0),
+    borderSide: BorderSide(color: Colors.teal, width: 1.0),
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.deepPurple, width: 2.0),
+    borderSide: BorderSide(color: Colors.teal, width: 2.0),
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
   fillColor: Colors.white,

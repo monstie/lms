@@ -30,10 +30,11 @@ class _loginscreenState extends State<loginscreen> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
+
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.deepPurple, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              colors: [Colors.teal, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -42,9 +43,11 @@ class _loginscreenState extends State<loginscreen> {
                   headerSection(),
                   textSection(),
                   buttonSection(),
+
                 ],
               ),
       ),
+
     );
   }
 
@@ -109,7 +112,7 @@ class _loginscreenState extends State<loginscreen> {
                     signIn(rollController.text, passwordController.text);
                   },
             elevation: 0.0,
-            color: Colors.deepPurple,
+            color: Colors.teal,
             child: Text("Log In", style: TextStyle(color: Colors.white70)),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           ),
@@ -121,8 +124,8 @@ class _loginscreenState extends State<loginscreen> {
             Navigator.pushNamed(context, Signup.id);
           },
             child:Text('Sign up',style: GoogleFonts.spectralSC(fontSize: 30,color: Colors.white),),
-            color: Colors.deepPurple,
-          )
+            color: Colors.teal,
+          ),
 
 
         ],
@@ -174,10 +177,17 @@ class _loginscreenState extends State<loginscreen> {
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
       child: Center(
-        child: Text("LIBRARY",
-            style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+        child: Row(
+          children: [
+            Image(image: AssetImage('images/ic.png'),height: 90,width: 50,color: Colors.white,),
+            SizedBox(width: 10,),
+            Text("LIBRARY",
+                style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+          ],
+        ),
       ),
     );
   }
+
 }
 

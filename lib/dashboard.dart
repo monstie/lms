@@ -70,14 +70,15 @@ class _MainPageState extends State<MainPage> {
               child:
               ListView.builder(
                 itemCount: issues == null ? 0 : issues.length,
+
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                     child:
                     Card(
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.teal,
                       elevation: 15.0,
-                      shadowColor: Colors.deepPurple,
+                      shadowColor: Colors.teal,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Center(
@@ -96,6 +97,7 @@ class _MainPageState extends State<MainPage> {
                   );
                 },
               ),
+
             ),
             Center(child: Text("Returned:",style: GoogleFonts.dancingScript(fontSize: 40, color: Colors.black,fontWeight: FontWeight.bold))),
             Expanded(
@@ -105,9 +107,9 @@ class _MainPageState extends State<MainPage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                     child: Card(
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.teal,
                       elevation: 15.0,
-                      shadowColor: Colors.deepPurple,
+                      shadowColor: Colors.teal,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Center(
@@ -174,12 +176,13 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       drawer: Drawer(
+
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
               accountName: Text('Name'),
               accountEmail: Text('email'),
-              decoration: BoxDecoration(color: Colors.black),
+              decoration: BoxDecoration(color: Colors.teal),
             ),
             new ListTile(
               title: Text(
@@ -203,8 +206,11 @@ class _MainPageState extends State<MainPage> {
             new ListTile(
               title: Text('Settings'),
               onTap: () {},
-            )
+            ),
+            
+
           ],
+
         ),
       ),
     );
