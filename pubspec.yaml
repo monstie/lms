@@ -30,6 +30,7 @@ dependencies:
   animated_text_kit: ^2.5.3
   http: ^0.12.2
   shared_preferences:
+  simple_coverflow: ^0.0.8
 
 
 
