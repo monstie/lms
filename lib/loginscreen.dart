@@ -54,7 +54,7 @@ class _loginscreenState extends State<loginscreen> {
       'rollno': rollno,
       'password': password,
     });
-    var jsonResponse = null;
+    var jsonResponse;
     http.Response response = await http
         .post('https://lmssuiit.pythonanywhere.com/api/login', body: data);
     print("Body: ${response.body}");
@@ -68,6 +68,12 @@ class _loginscreenState extends State<loginscreen> {
         // setState(() {
         //   _isLoading = false;
         // });
+        String firstName = jsonResponse['first_name']??'Unknown';
+        String lastName = jsonResponse['last_name']??'';
+        String email = jsonResponse['email']??'';
+        await sharedPreferences.setString("first_name", firstName);
+        await sharedPreferences.setString("last_name", lastName);
+        await sharedPreferences.setString("email", email);
         String cookie = response.headers['set-cookie'];
         List<String> l = cookie.split("; ");
         l.forEach((field) async {

@@ -26,7 +26,13 @@ class Signup extends StatefulWidget {
 class SignupState extends State<Signup> {
   //String name;
 
-  Future<void> postdata(String rollno, String title, String last_name, String email, String password) async {
+  Future<void> postdata(
+    String rollno,
+    String title,
+    String last_name,
+    String email,
+    String password,
+  ) async {
     var res = await http.post(
       'https://lmssuiit.pythonanywhere.com/api/signup',
       headers: <String, String>{
@@ -42,13 +48,10 @@ class SignupState extends State<Signup> {
         },
       ),
     );
-    print(res.body);
-
-//  if (res.statusCode == 201) {
-//    return Album.fromJson(jsonDecode(res.body));
-//  } else {
-//    throw Exception('Failed to create album.');
-//  }
+    print("\n\nSignUp API response -----------------------------------------");
+    print("Body: ${res.body}");
+    print("Status: ${res.statusCode}");
+    print("Header: ${res.headers}\n\n\n");
   }
 
   @override
@@ -82,20 +85,26 @@ class SignupState extends State<Signup> {
 //                ),
 //              ),
 
-              Container(
+                  Container(
 //              margin: EdgeInsets.only(top: 50.0),
-              padding: EdgeInsets.only(left: 50.0),
-              child: Center(
-                child: Row(
-                  children: [
-                    Image(image: AssetImage('images/ic.png'),height: 90,width: 50,color: Colors.white70,),
-                    SizedBox(width: 10,),
-                    Text("LIBRARY",
-                        style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
-                  ],
-                ),
-              ),
-            ),
+                    padding: EdgeInsets.only(left: 50.0),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Image(
+                            image: AssetImage('images/ic.png'),
+                            height: 90,
+                            width: 50,
+                            color: Colors.white70,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("LIBRARY", style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
 //                  ColorizeAnimatedTextKit(
 //                      onTap: () {
 //                        print("Tap Event");
@@ -124,7 +133,9 @@ class SignupState extends State<Signup> {
                         padding: EdgeInsets.all(25.0),
                         child: Column(
                           children: <Widget>[
-                            Text('SIGN UP', style: GoogleFonts.dancingScript(fontSize: 30, color: Colors.white,fontWeight: FontWeight.bold)),
+                            Text('SIGN UP',
+                                style: GoogleFonts.dancingScript(
+                                    fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold)),
 //                        Container(
 //                          decoration: BoxDecoration(
 //                            color: Colors.deepPurple,
@@ -189,17 +200,19 @@ class SignupState extends State<Signup> {
                                 // Add your onPressed code here!
                                 postdata(rollno, first_name, last_name, email, password);
                                 Navigator.pushNamed(context, loginscreen.id);
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: const Text('Successfully signed in. Log in for the info.'),
-                                  duration: const Duration(seconds: 2),
-//                                  action: SnackBarAction(
-//                                    label: 'ACTION',
-//                                    onPressed: () { },
-//                                  ),
-                                ));
-
+//                                 Scaffold.of(context).showSnackBar(SnackBar(
+//                                   content: const Text('Successfully signed in. Log in for the info.'),
+//                                   duration: const Duration(seconds: 2),
+// //                                  action: SnackBarAction(
+// //                                    label: 'ACTION',
+// //                                    onPressed: () { },
+// //                                  ),
+//                                 ));
                               },
-                              child: Icon(Icons.login,color: Colors.black,),
+                              child: Icon(
+                                Icons.login,
+                                color: Colors.black,
+                              ),
                               backgroundColor: Colors.white,
                             ),
                           ],
