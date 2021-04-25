@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -27,13 +25,15 @@ class _loginscreenState extends State<loginscreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+        .copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.deepPurple, Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              colors: [Colors.teal, Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
         ),
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
@@ -55,7 +55,8 @@ class _loginscreenState extends State<loginscreen> {
       'password': password,
     });
     var jsonResponse = null;
-    http.Response response = await http.post('https://lmssuiit.pythonanywhere.com/api/login', body: data);
+    http.Response response = await http
+        .post('https://lmssuiit.pythonanywhere.com/api/login', body: data);
     print("Body: ${response.body}");
     print("Status: ${response.statusCode}");
     print("Header: ${response.headers}");
@@ -71,9 +72,9 @@ class _loginscreenState extends State<loginscreen> {
         List<String> l = cookie.split("; ");
         l.forEach((field) async {
           List<String> a = field.split("=");
-          if(a[0] == "csrftoken"){
+          if (a[0] == "csrftoken") {
             await sharedPreferences.setString("token", a[1]);
-          }else if(a[0] == "SameSite" && a.length>2){
+          } else if (a[0] == "SameSite" && a.length > 2) {
             await sharedPreferences.setString("sessionid", a[2]);
           }
         });
@@ -100,34 +101,37 @@ class _loginscreenState extends State<loginscreen> {
       child: Column(
         children: [
           RaisedButton(
-            onPressed: rollController.text == "" || passwordController.text == ""
-                ? null
-                : () {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    signIn(rollController.text, passwordController.text);
-                  },
+            onPressed:
+                rollController.text == "" || passwordController.text == ""
+                    ? null
+                    : () {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        signIn(rollController.text, passwordController.text);
+                      },
             elevation: 0.0,
-            color: Colors.deepPurple,
+            color: Colors.teal,
             child: Text("Log In", style: TextStyle(color: Colors.white70)),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
           ),
           SizedBox(
             height: 50,
           ),
           Text('If new, create an account here'),
-          RaisedButton(onPressed: (){
-            Navigator.pushNamed(context, Signup.id);
-          },
-            child:Text('Sign up',style: GoogleFonts.spectralSC(fontSize: 30,color: Colors.white),),
-            color: Colors.deepPurple,
-          )
-
-
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, Signup.id);
+            },
+            child: Text(
+              'Sign up',
+              style: GoogleFonts.spectralSC(fontSize: 30, color: Colors.white),
+            ),
+            color: Colors.teal,
+          ),
         ],
       ),
-
     );
   }
 
@@ -146,7 +150,8 @@ class _loginscreenState extends State<loginscreen> {
             decoration: InputDecoration(
               icon: Icon(Icons.edit, color: Colors.white),
               hintText: "Roll No.",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
@@ -159,11 +164,11 @@ class _loginscreenState extends State<loginscreen> {
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white),
               hintText: "Password",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
-
         ],
       ),
     );
@@ -174,10 +179,23 @@ class _loginscreenState extends State<loginscreen> {
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
       child: Center(
-        child: Text("LIBRARY",
-            style: GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+        child: Row(
+          children: [
+            Image(
+              image: AssetImage('images/ic.png'),
+              height: 90,
+              width: 50,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text("LIBRARY",
+                style:
+                    GoogleFonts.breeSerif(fontSize: 50, color: Colors.white)),
+          ],
+        ),
       ),
     );
   }
 }
-

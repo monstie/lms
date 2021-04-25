@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -119,12 +120,15 @@ class _booklistState extends State<booklist> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Card(
+                  color: Colors.teal,
+                  elevation: 15.0,
+                  shadowColor: Colors.teal,
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${data[index][0]}"),
-                        Text("${data[index][1]}"),
+                        Text("Book: ${data[index][0]}",style: GoogleFonts.breeSerif(fontSize: 20, color: Colors.white)),
+                        Text("Author: ${data[index][1]}",style: TextStyle(color: Colors.white)),
                       ],
                     ),
                     padding: const EdgeInsets.all(20.0),
@@ -142,22 +146,28 @@ class _booklistState extends State<booklist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('BOOKLIST'),
-        backgroundColor: Colors.deepPurple,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 80),
+          child: Text('BOOKLIST'),
+        ),
+        backgroundColor: Colors.black,
       ),
-      body: FutureBuilder<List<List<dynamic>>>(
-        future: getBooks(),
-        builder: (context, snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
-            if(snapshot.hasError){
-              return Center(child: Text(snapshot.error.toString()));
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder<List<List<dynamic>>>(
+          future: getBooks(),
+          builder: (context, snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+              if(snapshot.hasError){
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              return getBooksListToDisplay(snapshot.data);
             }
-            return getBooksListToDisplay(snapshot.data);
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       )
     );
   }

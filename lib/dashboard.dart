@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ms/loginscreen.dart';
 
 //import 'package:library_ms/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:library_ms/booklist.dart';
+import 'package:simple_coverflow/simple_coverflow.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'dash_board';
@@ -50,99 +52,88 @@ class _MainPageState extends State<MainPage> {
     return [res['issues'], res['returned']];
   }
 
-  // Future<String> getJsonData() async {
-  //   print("Getting json data ------------------------------");
-  //   sharedPreferences = await SharedPreferences.getInstance();
-  //   String token = sharedPreferences.getString("token");
-  //   String sessionId = sharedPreferences.getString("sessionid");
-  //   Map<String, String> header = {
-  //       "Accept": "application/json",
-  //       "Cookie": "csrftoken=$token;sessionid=$sessionId"
-  //   };
-  //   print("token: $token");
-  //   print("sessionid: $sessionId");
-  //   print(header.toString());
-  //   var response = await http.get(Uri.encodeFull(url), headers: header);
-  //   print(response.body);
-  //   setState(() {
-  //     var convertDataToJson = jsonDecode(response.body);
-  //     data = convertDataToJson['issued'];
-  //     ret = convertDataToJson['returned'];
-  //     print(data);
-  //   });
-  //   return "success";
-  // }
-  //
-  // @override
-  // void initState1() {
-  //   super.initState();
-  //   checkLoginStatus();
-  // }
-  //
-  // checkLoginStatus() async {
-  //   sharedPreferences = await SharedPreferences.getInstance();
-  //   print("token: ${sharedPreferences.getString("token")}");
-  //   print("sessionid: ${sharedPreferences.getString("sessionid")}");
-  //   if (sharedPreferences.getString("token") == null) {
-  //     Navigator.of(context).pushAndRemoveUntil(
-  //         MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
-  //         (Route<dynamic> route) => false);
-  //   }
-  // }
+
 
   Widget getBooksListToDisplay(List<List<dynamic>> data){
     List issues = data[0];
     List returned = data[1];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Issues:"),
-        Expanded(
-          child: ListView.builder(
-            itemCount: issues == null ? 0 : issues.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${issues[index][0]}"),
-                        Text("${issues[index][1]} - ${issues[index][2]}"),
-                      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child:  Column(
+
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+
+                child: Text("Issues:",style: GoogleFonts.dancingScript(fontSize: 40, color: Colors.black,fontWeight: FontWeight.bold))),
+            Expanded(
+              child:
+              ListView.builder(
+                itemCount: issues == null ? 0 : issues.length,
+
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                    child:
+                    Card(
+                      color: Colors.teal,
+                      elevation: 15.0,
+                      shadowColor: Colors.teal,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Book: ${issues[index][0]}",style: GoogleFonts.breeSerif(fontSize: 20, color: Colors.white)),
+                              SizedBox(height: 10.0,),
+                              Text("Issued date: ${issues[index][1]} ",style: TextStyle(color: Colors.white),),
+                              Text("Due date: ${issues[index][2]}",style: TextStyle(color: Colors.white),),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        Text("Returned:"),
-        Expanded(
-          child: ListView.builder(
-            itemCount: returned == null ? 0 : returned.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${returned[index][0]}"),
-                        Text("${returned[index][1]} - ${returned[index][2]}"),
-                      ],
+                  );
+                },
+              ),
+
+            ),
+            Center(child: Text("Returned:",style: GoogleFonts.dancingScript(fontSize: 40, color: Colors.black,fontWeight: FontWeight.bold))),
+            Expanded(
+              child: ListView.builder(
+                itemCount: returned == null ? 0 : returned.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                    child: Card(
+                      color: Colors.teal,
+                      elevation: 15.0,
+                      shadowColor: Colors.teal,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Book: ${returned[index][0]}",style: GoogleFonts.breeSerif(fontSize: 20, color: Colors.white)),
+                              SizedBox(height: 5.0,),
+                              Text("Issued date: ${returned[index][1]} ",style: TextStyle(color: Colors.white)),
+                              Text("Returned date: ${returned[index][2]}",style: TextStyle(color: Colors.white)),
+                              Text("Due date: ${returned[index][3]} ",style: TextStyle(color: Colors.white)),
+
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ],
+
     );
   }
 
@@ -151,9 +142,11 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("DASHBOARD", style: TextStyle(color: Colors.white))),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         actions: <Widget>[
           FlatButton(
+
+
             onPressed: () {
               sharedPreferences.clear();
               // sharedPreferences.commit();
@@ -161,7 +154,7 @@ class _MainPageState extends State<MainPage> {
                   MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
                   (Route<dynamic> route) => false);
             },
-            child: Text("Log Out", style: TextStyle(color: Colors.white)),
+            child:Icon(Icons.logout,color: Colors.white,) ,
           ),
         ],
       ),
@@ -183,12 +176,13 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       drawer: Drawer(
+
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: Text('Soumya Prakash Mishra'),
-              accountEmail: Text('soumyamax619@gmail.com'),
-              decoration: BoxDecoration(color: Colors.deepPurple),
+              accountName: Text('Name'),
+              accountEmail: Text('email'),
+              decoration: BoxDecoration(color: Colors.teal),
             ),
             new ListTile(
               title: Text(
@@ -210,10 +204,58 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             new ListTile(
-              title: Text('Settings'),
+              title: Text('Dashboard',style: TextStyle(fontSize: 20.0),),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new ListTile(
+              title: Text('Settings',style: TextStyle(fontSize: 20.0)),
               onTap: () {},
+            ),
+            //SizedBox(height: 30,),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: new FlatButton(
+
+//              backgroundColor: Colors.black,
+                  child:
+                  Text('About',style: TextStyle(fontSize: 20.0)),
+                  onPressed: (){
+                showDialog(context: context,
+                builder: (BuildContext context){
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 60.0),
+                    child: AlertDialog(
+                      content:
+
+                      Column(
+                        children: [
+                          Text('About us',style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black) ),
+                          SizedBox(height: 50,),
+                          CircleAvatar(backgroundImage: AssetImage('images/ts.jpg'),radius: 80,),
+                          SizedBox(height: 20,),
+                          Text('Developers:',style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black) ),
+                          Text('Soumya Prakash Mishra',style: GoogleFonts.dancingScript(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold)),
+                          Text('Tanshit Ur Rahman',style: GoogleFonts.dancingScript(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold)),
+                          SizedBox(height: 80,),
+                          //Icon(Icons.copyright,size: 8,),
+                          Text('Copyright.All rights reserved. Version:0.0.1',style: TextStyle(fontSize: 8),)
+
+
+                        ],
+                      ),
+
+                    ),
+                  );
+                }
+                );
+              }),
             )
+
+
           ],
+
         ),
       ),
     );

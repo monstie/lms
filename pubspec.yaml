@@ -30,6 +30,7 @@ dependencies:
   animated_text_kit: ^2.5.3
   http: ^0.12.2
   shared_preferences:
+  simple_coverflow: ^0.0.8
 
 
 
@@ -55,6 +56,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - images/bg.jpg
+  - images/ic.png
+  - images/pp.jpg
+  - images/ts.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
