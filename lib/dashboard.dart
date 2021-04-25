@@ -204,10 +204,55 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             new ListTile(
-              title: Text('Settings'),
+              title: Text('Dashboard',style: TextStyle(fontSize: 20.0),),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new ListTile(
+              title: Text('Settings',style: TextStyle(fontSize: 20.0)),
               onTap: () {},
             ),
-            
+            //SizedBox(height: 30,),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: new FlatButton(
+
+//              backgroundColor: Colors.black,
+                  child:
+                  Text('About',style: TextStyle(fontSize: 20.0)),
+                  onPressed: (){
+                showDialog(context: context,
+                builder: (BuildContext context){
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 60.0),
+                    child: AlertDialog(
+                      content:
+
+                      Column(
+                        children: [
+                          Text('About us',style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black) ),
+                          SizedBox(height: 50,),
+                          CircleAvatar(backgroundImage: AssetImage('images/ts.jpg'),radius: 80,),
+                          SizedBox(height: 20,),
+                          Text('Developers:',style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black) ),
+                          Text('Soumya Prakash Mishra',style: GoogleFonts.dancingScript(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold)),
+                          Text('Tanshit Ur Rahman',style: GoogleFonts.dancingScript(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold)),
+                          SizedBox(height: 80,),
+                          //Icon(Icons.copyright,size: 8,),
+                          Text('Copyright.All rights reserved. Version:0.0.1',style: TextStyle(fontSize: 8),)
+
+
+                        ],
+                      ),
+
+                    ),
+                  );
+                }
+                );
+              }),
+            )
+
 
           ],
 
