@@ -249,37 +249,39 @@ class _MainPageState extends State<MainPage> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 60.0),
                             child: AlertDialog(
-                              content: Column(
-                                children: [
-                                  Text('About us',
-                                      style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundImage: AssetImage('images/ts.jpg'),
-                                    radius: 80,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text('Developers:',
-                                      style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
-                                  Text('Soumya Prakash Mishra',
-                                      style: GoogleFonts.dancingScript(
-                                          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
-                                  Text('Tanshit Ur Rahman',
-                                      style: GoogleFonts.dancingScript(
-                                          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
-                                  SizedBox(
-                                    height: 80,
-                                  ),
-                                  //Icon(Icons.copyright,size: 8,),
-                                  Text(
-                                    'Copyright.All rights reserved. Version:0.0.1',
-                                    style: TextStyle(fontSize: 8),
-                                  )
-                                ],
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Text('About us',
+                                        style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    CircleAvatar(
+                                      backgroundImage: AssetImage('images/ts.jpg'),
+                                      radius: 80,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text('Developers:',
+                                        style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
+                                    Text('Soumya Prakash Mishra',
+                                        style: GoogleFonts.dancingScript(
+                                            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                    Text('Tanshit Ur Rahman',
+                                        style: GoogleFonts.dancingScript(
+                                            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                    SizedBox(
+                                      height: 80,
+                                    ),
+                                    //Icon(Icons.copyright,size: 8,),
+                                    Text(
+                                      'Copyright.All rights reserved. Version:0.0.1',
+                                      style: TextStyle(fontSize: 8),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );
