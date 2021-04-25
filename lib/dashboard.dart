@@ -194,6 +194,7 @@ class _MainPageState extends State<MainPage> {
       ),
       drawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: FutureBuilder<String>(
