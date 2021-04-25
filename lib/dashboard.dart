@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -156,8 +157,10 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Center(child: Text("DASHBOARD", style: TextStyle(color: Colors.white))),
         backgroundColor: Colors.black,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        backwardsCompatibility: false,
         actions: <Widget>[
-          FlatButton(
+          IconButton(
             onPressed: () {
               sharedPreferences.clear();
               // sharedPreferences.commit();
@@ -165,7 +168,7 @@ class _MainPageState extends State<MainPage> {
                   MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
                   (Route<dynamic> route) => false);
             },
-            child: Icon(
+            icon: Icon(
               Icons.logout,
               color: Colors.white,
             ),
@@ -190,9 +193,9 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       drawer: Drawer(
-        child: new ListView(
+        child: ListView(
           children: <Widget>[
-            new UserAccountsDrawerHeader(
+            UserAccountsDrawerHeader(
               accountName: FutureBuilder<String>(
                 future: getRollNumber(),
                 builder: (context, snapshot){
@@ -203,7 +206,7 @@ class _MainPageState extends State<MainPage> {
               accountEmail: Container(),
               decoration: BoxDecoration(color: Colors.teal),
             ),
-            new ListTile(
+            ListTile(
               title: Text(
                 'Booklist',
                 style: TextStyle(fontSize: 20.0),
@@ -222,7 +225,7 @@ class _MainPageState extends State<MainPage> {
 //                );
               },
             ),
-            new ListTile(
+            ListTile(
               title: Text(
                 'Dashboard',
                 style: TextStyle(fontSize: 20.0),
@@ -231,14 +234,14 @@ class _MainPageState extends State<MainPage> {
                 Navigator.of(context).pop();
               },
             ),
-            new ListTile(
+            ListTile(
               title: Text('Settings', style: TextStyle(fontSize: 20.0)),
               onTap: () {},
             ),
             //SizedBox(height: 30,),
             Align(
               alignment: Alignment.bottomLeft,
-              child: new FlatButton(
+              child: FlatButton(
 
 //              backgroundColor: Colors.black,
                   child: Text('About', style: TextStyle(fontSize: 20.0)),
