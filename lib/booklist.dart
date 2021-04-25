@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -151,6 +152,8 @@ class _booklistState extends State<booklist> {
           child: Text('BOOKLIST'),
         ),
         backgroundColor: Colors.black,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        backwardsCompatibility: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
