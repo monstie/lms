@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 // import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,15 +14,59 @@ import 'package:library_ms/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:library_ms/booklist.dart';
 // import 'package:simple_coverflow/simple_coverflow.dart';
+import 'main.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:drawer_swipe/drawer_swipe.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'dash_board';
+  final bool wantsTouchId=true;
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+final LocalAuthentication auth= LocalAuthentication();
+final storage = new FlutterSecureStorage();
+
+  @override
+  void initState(){
+    super.initState();
+    if (widget.wantsTouchId){
+      auth.authenticate(
+        localizedReason: 'Authenticate to use for signing in next time'
+      );
+    }
+  }
+
+void authenticate() async {
+  final canCheck = await auth.canCheckBiometrics;
+
+  if (canCheck) {
+    List<BiometricType> availableBiometrics =
+    await auth.getAvailableBiometrics();
+
+    if (Platform.isIOS) {
+      if (availableBiometrics.contains(BiometricType.face)) {
+        // Face ID.
+         final authenticated= await auth.authenticateWithBiometrics(
+            localizedReason: 'Enable Face ID to sign in more easily');
+//        if (authenticated) {
+//          storage.write(key: 'email', value: widget.rollno);
+//          storage.write(key: 'password', value: widget.password);
+//          storage.write(key: 'usingBiometric', value: 'true');
+//        }
+      } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+        // Touch ID.
+      }
+    }
+  } else {
+    print('cant check');
+  }
+}
+
   SharedPreferences sharedPreferences;
   final String url = 'https://lmssuiit.pythonanywhere.com/api/booklist';
 
@@ -147,73 +193,106 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+
+
+
   Future<String> getRollNumber() async {
     if(sharedPreferences == null) sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.get("rollno");
   }
   @override
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("DASHBOARD", style: TextStyle(color: Colors.white))),
-        backgroundColor: Colors.black,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        backwardsCompatibility: false,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              sharedPreferences.clear();
-              // sharedPreferences.commit();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
-                  (Route<dynamic> route) => false);
-            },
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text("DASHBOARD", style: TextStyle(color: Colors.white))),
+          bottom: const TabBar(
+            tabs: <Widget>[
+              Tab(
+                text: 'Issues',
+              ),
+              Tab(
+                text: 'Returned',              ),
+            ],
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: FutureBuilder<List<List<dynamic>>>(
-          future: getBooks(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
-              return getBooksListToDisplay(snapshot.data);
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: FutureBuilder<String>(
-                future: getRollNumber(),
-                builder: (context, snapshot){
-                  if(snapshot.hasData) return Text(snapshot.data);
-                  return Container();
-                },
+          backgroundColor: Colors.black,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          backwardsCompatibility: false,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                sharedPreferences.clear();
+                // sharedPreferences.commit();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
+                        (Route<dynamic> route) => false);
+              },
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
               ),
-              accountEmail: Container(),
-              decoration: BoxDecoration(color: Colors.teal),
             ),
-            ListTile(
-              title: Text(
-                'Booklist',
-                style: TextStyle(fontSize: 20.0),
+          ],
+        ),
+
+
+        body: const TabBarView(
+
+          children: <Widget>[
+            Center(
+              child: Text("issues...."),
+      ),
+            Center(
+              child: Text("returned...."),
+            ),
+          ],
+        ),
+
+
+//        body:
+//
+//        Padding(
+//          padding: const EdgeInsets.symmetric(horizontal: 12),
+//          child: FutureBuilder<List<List<dynamic>>>(
+//            future: getBooks(),
+//            builder: (context, snapshot) {
+//              if (snapshot.connectionState == ConnectionState.done) {
+//                if (snapshot.hasError) {
+//                  return Center(child: Text(snapshot.error.toString()));
+//                }
+//                return getBooksListToDisplay(snapshot.data);
+//              }
+//              return Center(
+//                child: CircularProgressIndicator(),
+//              );
+//            },
+//          ),
+//        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: FutureBuilder<String>(
+                  future: getRollNumber(),
+                  builder: (context, snapshot){
+                    if(snapshot.hasData) return Text(snapshot.data);
+                    return Container();
+                  },
+                ),
+                accountEmail: Container(),
+                decoration: BoxDecoration(color: Colors.teal),
               ),
-              onTap: () {
-                Navigator.pushNamed(context, booklist.id);
+              ListTile(
+                title: Text(
+                  'Booklist',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, booklist.id);
 //                PopupMenuButton(
 //                  child: Center(child: Text('click here')),
 //                  itemBuilder: (context) {
@@ -224,75 +303,82 @@ class _MainPageState extends State<MainPage> {
 //                    });
 //                  },
 //                );
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Dashboard',
-                style: TextStyle(fontSize: 20.0),
+                },
               ),
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ListTile(
-              title: Text('Settings', style: TextStyle(fontSize: 20.0)),
-              onTap: () {},
-            ),
-            //SizedBox(height: 30,),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: FlatButton(
+              ListTile(
+                title: Text(
+                  'Dashboard',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: Text('Settings', style: TextStyle(fontSize: 20.0)),
+                onTap: () {},
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: TextButton(child:Text('Text',style: TextStyle(fontSize: 20.0,color: Colors.white),),onPressed:(){ Get.isDarkMode
+      ? Get.changeTheme(ThemeData.light())
+          : Get.changeTheme(ThemeData.dark());}),
+              ),
+      //            //SizedBox(height: 30,),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: FlatButton(
 
 //              backgroundColor: Colors.black,
-                  child: Text('About', style: TextStyle(fontSize: 20.0)),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 60.0),
-                            child: AlertDialog(
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Text('About us',
-                                        style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    CircleAvatar(
-                                      backgroundImage: AssetImage('images/ts.jpg'),
-                                      radius: 80,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text('Developers:',
-                                        style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
-                                    Text('Soumya Prakash Mishra',
-                                        style: GoogleFonts.dancingScript(
-                                            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
-                                    Text('Tanshit Ur Rahman',
-                                        style: GoogleFonts.dancingScript(
-                                            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
-                                    SizedBox(
-                                      height: 80,
-                                    ),
-                                    //Icon(Icons.copyright,size: 8,),
-                                    Text(
-                                      'Copyright.All rights reserved. Version:0.0.1',
-                                      style: TextStyle(fontSize: 8),
-                                    )
-                                  ],
+                    child: Text('About', style: TextStyle(fontSize: 20.0)),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 60.0),
+                              child: AlertDialog(
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Text('About us',
+                                          style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      CircleAvatar(
+                                        backgroundImage: AssetImage('images/ts.jpg'),
+                                        radius: 80,
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text('Developers:',
+                                          style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
+                                      Text('Soumya Prakash Mishra',
+                                          style: GoogleFonts.dancingScript(
+                                              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                      Text('Tanshit Ur Rahman',
+                                          style: GoogleFonts.dancingScript(
+                                              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                      SizedBox(
+                                        height: 80,
+                                      ),
+                                      //Icon(Icons.copyright,size: 8,),
+                                      Text(
+                                        'Copyright.All rights reserved. Version:0.0.1',
+                                        style: TextStyle(fontSize: 8),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        });
-                  }),
-            )
-          ],
+                            );
+                          });
+                    }),
+              )
+            ],
+          ),
         ),
       ),
     );

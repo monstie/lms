@@ -31,6 +31,10 @@ dependencies:
   http: ^0.12.2
   shared_preferences:
   simple_coverflow: ^0.0.8
+  get: ^4.1.4
+  local_auth: ^1.1.5
+  flutter_secure_storage: ^4.2.0
+  drawer_swipe: ^0.0.4
 
 
 

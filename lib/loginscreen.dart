@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_ms/dashboard.dart';
 import 'package:library_ms/signup.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:local_auth/local_auth.dart';
 
 //import 'package:library_ms/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +23,11 @@ class loginscreen extends StatefulWidget {
 }
 
 class _loginscreenState extends State<loginscreen> {
+  final LocalAuthentication auth = LocalAuthentication();
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+  bool userHasTouchId;
   bool _isLoading = false;
+  bool _useTouchId = false;
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +112,27 @@ class _loginscreenState extends State<loginscreen> {
       margin: EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 10,
+              ), //SizedBox
+              Text(
+                'use fingerprint ',
+                style: TextStyle(fontSize: 15.0),
+              ), //Text
+              SizedBox(width:3), //SizedBox
+              /** Checkbox Widget **/
+              Checkbox(
+                value: _useTouchId,
+                onChanged: (newValue) {
+                  setState(() {
+                  _useTouchId = newValue;
+                  });
+                },
+              ), //Checkbox
+            ], //<Widget>[]
+          ),
           RaisedButton(
             onPressed:
                 rollController.text == "" || passwordController.text == ""
