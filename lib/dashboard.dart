@@ -13,6 +13,7 @@ import 'package:library_ms/loginscreen.dart';
 //import 'package:library_ms/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:library_ms/booklist.dart';
+
 // import 'package:simple_coverflow/simple_coverflow.dart';
 import 'main.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,51 +22,48 @@ import 'package:drawer_swipe/drawer_swipe.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'dash_board';
-  final bool wantsTouchId=true;
+  final bool wantsTouchId = true;
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-final LocalAuthentication auth= LocalAuthentication();
-final storage = new FlutterSecureStorage();
+  final LocalAuthentication auth = LocalAuthentication();
+  final storage = new FlutterSecureStorage();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    if (widget.wantsTouchId){
-      auth.authenticate(
-        localizedReason: 'Authenticate to use for signing in next time'
-      );
+    if (widget.wantsTouchId) {
+      auth.authenticate(localizedReason: 'Authenticate to use for signing in next time');
     }
   }
 
-void authenticate() async {
-  final canCheck = await auth.canCheckBiometrics;
+  void authenticate() async {
+    final canCheck = await auth.canCheckBiometrics;
 
-  if (canCheck) {
-    List<BiometricType> availableBiometrics =
-    await auth.getAvailableBiometrics();
+    if (canCheck) {
+      List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
 
-    if (Platform.isIOS) {
-      if (availableBiometrics.contains(BiometricType.face)) {
-        // Face ID.
-         final authenticated= await auth.authenticateWithBiometrics(
-            localizedReason: 'Enable Face ID to sign in more easily');
+      if (Platform.isIOS) {
+        if (availableBiometrics.contains(BiometricType.face)) {
+          // Face ID.
+          final authenticated =
+              await auth.authenticateWithBiometrics(localizedReason: 'Enable Face ID to sign in more easily');
 //        if (authenticated) {
 //          storage.write(key: 'email', value: widget.rollno);
 //          storage.write(key: 'password', value: widget.password);
 //          storage.write(key: 'usingBiometric', value: 'true');
 //        }
-      } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
-        // Touch ID.
+        } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+          // Touch ID.
+        }
       }
+    } else {
+      print('cant check');
     }
-  } else {
-    print('cant check');
   }
-}
 
   SharedPreferences sharedPreferences;
   final String url = 'https://lmssuiit.pythonanywhere.com/api/booklist';
@@ -193,18 +191,15 @@ void authenticate() async {
     );
   }
 
-
-
-
   Future<String> getRollNumber() async {
-    if(sharedPreferences == null) sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences == null) sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.get("rollno");
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -215,7 +210,8 @@ void authenticate() async {
                 text: 'Issues',
               ),
               Tab(
-                text: 'Returned',              ),
+                text: 'Returned',
+              ),
             ],
           ),
           backgroundColor: Colors.black,
@@ -228,7 +224,7 @@ void authenticate() async {
                 // sharedPreferences.commit();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (BuildContext context) => loginscreen()),
-                        (Route<dynamic> route) => false);
+                    (Route<dynamic> route) => false);
               },
               icon: Icon(
                 Icons.logout,
@@ -238,19 +234,40 @@ void authenticate() async {
           ],
         ),
 
-
-        body: const TabBarView(
-
-          children: <Widget>[
-            Center(
-              child: Text("issues...."),
-      ),
-            Center(
-              child: Text("returned...."),
-            ),
-          ],
+        body: FutureBuilder<List<List<dynamic>>>(
+          future: getBooks(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              return TabBarView(
+                  children: <Widget>[
+                    Center(
+                      child: BookList(books: snapshot.data[0]),
+                    ),
+                    Center(
+                      child: BookList(books: snapshot.data[1]),
+                    ),
+                  ],
+                );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
 
+        // body: const TabBarView(
+        //   children: <Widget>[
+        //     Center(
+        //       child: Text("issues...."),
+        //     ),
+        //     Center(
+        //       child: Text("returned...."),
+        //     ),
+        //   ],
+        // ),
 
 //        body:
 //
@@ -278,8 +295,8 @@ void authenticate() async {
               UserAccountsDrawerHeader(
                 accountName: FutureBuilder<String>(
                   future: getRollNumber(),
-                  builder: (context, snapshot){
-                    if(snapshot.hasData) return Text(snapshot.data);
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) return Text(snapshot.data);
                     return Container();
                   },
                 ),
@@ -320,11 +337,16 @@ void authenticate() async {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: TextButton(child:Text('Text',style: TextStyle(fontSize: 20.0,color: Colors.white),),onPressed:(){ Get.isDarkMode
-      ? Get.changeTheme(ThemeData.light())
-          : Get.changeTheme(ThemeData.dark());}),
+                child: TextButton(
+                    child: Text(
+                      'Text',
+                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Get.isDarkMode ? Get.changeTheme(ThemeData.light()) : Get.changeTheme(ThemeData.dark());
+                    }),
               ),
-      //            //SizedBox(height: 30,),
+              //            //SizedBox(height: 30,),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: FlatButton(
@@ -357,10 +379,14 @@ void authenticate() async {
                                           style: GoogleFonts.breeSerif(fontSize: 30, color: Colors.black)),
                                       Text('Soumya Prakash Mishra',
                                           style: GoogleFonts.dancingScript(
-                                              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold)),
                                       Text('Tanshit Ur Rahman',
                                           style: GoogleFonts.dancingScript(
-                                              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold)),
                                       SizedBox(
                                         height: 80,
                                       ),
@@ -384,3 +410,53 @@ void authenticate() async {
     );
   }
 }
+
+class BookList extends StatelessWidget {
+  final List<dynamic> books;
+
+  const BookList({
+    Key key,
+    @required this.books,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: books == null ? 0 : books.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+          child: Card(
+            color: Colors.teal,
+            elevation: 15.0,
+            shadowColor: Colors.teal,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Book: ${books[index][0]}",
+                        style: GoogleFonts.breeSerif(fontSize: 20, color: Colors.white)),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "Issued date: ${books[index][1]} ",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Due date: ${books[index][2]}",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
